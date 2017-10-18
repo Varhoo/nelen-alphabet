@@ -1,0 +1,10 @@
+*.py[c|o]
+
+# environment
+env/*
+.idea/*
+
+# database
+*.db
+*.sql
+*.sqlite3
