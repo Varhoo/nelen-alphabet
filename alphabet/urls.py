@@ -22,6 +22,7 @@ import apps.core.views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', apps.core.views.home, name="home"),
+    url(r'^place/(?P<name>.*)/?$', apps.core.views.sync, name="home"),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 #
