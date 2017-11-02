@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*", ]
 
+ADMIN = ["studenik@varhoo.cz", ]
 
 # Application definition
 
