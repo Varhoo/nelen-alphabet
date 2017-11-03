@@ -7,15 +7,22 @@
 var alphabet = "abcdefghijklmnopqrstuvwxyz";
 var czech =   "ěšďčřžýáéíóúň";
 var convert = "esdcrzyaeioun";
+var anim = [];
 
 lock_status = false;
 
-function Lock(){
+function Lock (){
     lock_status = true;
+    $("#interactive-submit").text("...");
 }
 
-function Unlock(){
+function IsLock (){
+    return (lock_status == true);
+}
+
+function Unlock (){
     lock_status = false;
+    $("#interactive-submit").text("OK");
 }
 
 function c (char){
@@ -29,19 +36,15 @@ function c (char){
     }
 }
 
-function check(time){
+function check (time){
     setTimeout(check, 1000, time);
-}
-
-function stop(){
-    $("#canvas div").fadeOut(2000);
 }
 
 function block (id, char){
     var animData = {
         container: document.getElementById('bodymovin' + id),
         renderer: 'svg',
-        loop: false,
+        loop: true,
         autoplay: true,
         rendererSettings: {
             progressiveLoad:false
@@ -51,22 +54,28 @@ function block (id, char){
     return bodymovin.loadAnimation(animData);
 }
 
-function update(){
+function refresh (){
+    /* empty */
+}
+
+function update (){
+    Lock();
     text = $("#interactive-input").val();
     $("#canvas").empty();
     ww = $("#canvas").width();
     lenght = 0;
+    anim = [];
     $("#canvas").append("<div id='begin' >&nbsp;</div>");
     for (i = 0; i < text.length; i++){
         char = c(text.charAt(i));
         $("#canvas").append("<div id='bodymovin" + i +"' ></div>");
-        anim = block(i, char);
+        anim[i] = block(i, char);
         div = $("#bodymovin" + i);
         lenght = lenght + div.width();
     }
     $("#canvas").append("<div class='clearfix' ></div>");
     $("#begin").width((ww - lenght) / 2);
-    setTimeout(stop, 7000);
+    window.setTimeout(Unlock, 5000);
 }
 
 $(document).ready(function(){
@@ -79,7 +88,9 @@ $(document).ready(function(){
     }
 
     $("#interactive-submit").click(function(){
-        update();
+        if (! IsLock()){
+            update();
+        }
     });
 }).keypress(function(e) {
     if(e.which == 13) {
