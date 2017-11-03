@@ -9,5 +9,4 @@ def home(request):
     return render(request, 'index.html', {})
 
 def sync(request, name):
-    print name
     return render(request, 'index.html', {})

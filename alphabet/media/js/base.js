@@ -33,11 +33,15 @@ function check(time){
     setTimeout(check, 1000, time);
 }
 
+function stop(){
+    $("#canvas div").fadeOut(2000);
+}
+
 function block (id, char){
     var animData = {
         container: document.getElementById('bodymovin' + id),
         renderer: 'svg',
-        loop: true,
+        loop: false,
         autoplay: true,
         rendererSettings: {
             progressiveLoad:false
@@ -57,12 +61,12 @@ function update(){
         char = c(text.charAt(i));
         $("#canvas").append("<div id='bodymovin" + i +"' ></div>");
         anim = block(i, char);
-        console.log("print " + char);
         div = $("#bodymovin" + i);
         lenght = lenght + div.width();
     }
     $("#canvas").append("<div class='clearfix' ></div>");
     $("#begin").width((ww - lenght) / 2);
+    setTimeout(stop, 7000);
 }
 
 $(document).ready(function(){
