@@ -115,7 +115,11 @@ body {
  * Footer
  */
 
-.mastfoot {
+.mastfoot,
+.mastfoot a,
+.mastfoot a:focus,
+.mastfoot a:hover
+ {
   color: rgba(125,125,125,.5);
 }
 
