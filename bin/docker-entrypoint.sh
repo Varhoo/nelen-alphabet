@@ -11,7 +11,12 @@ EOF
 
 mkdir -p /data/log/
 source /data/env/bin/activate
+PRODUCTION=$( find /data/ -name production.py | grep "settings/production.py" )
 export DJANGO_SETTINGS_MODULE="alphabet.settings"
+if [ ! -z $PRODUCTION ]; then
+    export DJANGO_SETTINGS_MODULE="alphabet.settings.production"
+fi
+
 # python /data/manage.py migrate --fake-initial --noinput || exit
 python /data/manage.py migrate --noinput || exit
 python /data/manage.py collectstatic --noinput

@@ -37,8 +37,38 @@ function c (char){
 }
 
 function check (time){
-    setTimeout(check, 1000, time);
+    get_data();
+    setTimeout(check, 5000, time);
 }
+
+// using jQuery
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+$.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+            xhr.setRequestHeader("X-CSRFToken", getCookie("csrftoken"));
+        }
+    }
+});
 
 function block (id, char){
     var animData = {
@@ -58,9 +88,43 @@ function refresh (){
     /* empty */
 }
 
-function update (){
+function put_data(msg, place){
+    data = {
+        "msg": msg,
+        "csrfmiddlewaretoken": getCookie("csrftoken"),
+    };
+    $.ajax({
+        url: '/api/record/' + place,
+        type: 'PUT',
+        data: data,
+        success: function(result) {
+            $("#msg-id").val(result["status"]);
+        }
+    });
+}
+
+function get_data(){
+     place = $("#msg-space").val();
+     last_id = $("#msg-id").val()
+     $.ajax({
+        url: '/api/record/' + place,
+        type: 'GET',
+        data: {"id": last_id},
+        success: function(result) {
+           if (result["msg"].length > 0) {
+              obj = JSON.parse(result["msg"]);
+              msg = obj[0].fields["message"];
+              id = obj[0].pk;
+              last_id = $("#msg-id").val(id);
+              text = $("#interactive-input").val(msg);
+              update(text);
+           }
+        }
+    });
+}
+
+function update (text){
     Lock();
-    text = $("#interactive-input").val();
     $("#canvas").empty();
     ww = $("#canvas").width();
     lenght = 0;
@@ -79,21 +143,27 @@ function update (){
 }
 
 $(document).ready(function(){
-    window.setTimeout(check, 1000, 1000);
+    place = $("#msg-space").val();
+    if (place){
+        window.setTimeout(check, 5000);
+    }
     var url = window.location.href;
     if (url.indexOf('#') > -1) {
         var hash = url.substring(url.indexOf('#') + 1);
         $("#interactive-input").val(hash);
-        update();
+        update(hash);
     }
 
     $("#interactive-submit").click(function(){
         if (! IsLock()){
-            update();
+            place = $("#msg-space").val();
+            text = $("#interactive-input").val();
+            put_data(text, place);
+            update(text);
         }
     });
 }).keypress(function(e) {
     if(e.which == 13) {
-        update();
+        $("#interactive-submit").click();
     }
 })
