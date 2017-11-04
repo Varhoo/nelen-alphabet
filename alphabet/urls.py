@@ -13,17 +13,18 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
-import apps.core.views
+from apps.core.views import home, record, sync
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', apps.core.views.home, name="home"),
-    url(r'^place/(?P<name>.*)/?$', apps.core.views.sync, name="home"),
+    url(r'^$', home, name="home"),
+    url(r'^place/(?P<place>.*)/?$', sync, name="home"),
+    url(r'^api/record/(?P<place>.*)/?', record),
+    url(r'^api/', include('rest_framework.urls', namespace='rest_framework')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-
-#
 
