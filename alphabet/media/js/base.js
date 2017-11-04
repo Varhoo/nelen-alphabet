@@ -5,8 +5,8 @@
  */
 
 var alphabet = "abcdefghijklmnopqrstuvwxyz";
-var czech =   "ěšďčřžýáéíóúň";
-var convert = "esdcrzyaeioun";
+var czech =   " ěšďčřžýáéíóúň";
+var convert = "_esdcrzyaeioun";
 var anim = [];
 
 lock_status = false;
