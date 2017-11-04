@@ -5,8 +5,8 @@
  */
 
 var alphabet = "abcdefghijklmnopqrstuvwxyz";
-var czech =   " ěšďčřžýáéíóúň";
-var convert = "_esdcrzyaeioun";
+var czech =   " ěšďčřžýáéíóúňů";
+var convert = "_esdcrzyaeiounu";
 var anim = [];
 
 lock_status = false;
@@ -59,17 +59,20 @@ function sound(text){
         element.pause();
     });
     sounds = [];
+    upper = [];
     text = text.toLowerCase();
 
     var convert = "abcdefijklmnopqrstuvwxyz";
     var chars =   "ybcokuojkcjyoukcjbuckoyc";
     var chars = chars.toUpperCase();
-    t = new Set(text.split(""));
+    for (i = 0; i < text.length; i++){
+        upper[i] = chars[convert.indexOf(text[i])]
+    }
+    t = new Set(upper);
     t = Array.from(t).join("");
     for (i = 0; i < 3; i++){
         if (t.length > i){
-            ch = chars[convert.indexOf(t[i])];
-            sounds[i] = playChar(ch);
+            sounds[i] = playChar(t[i]);
             sounds[i].play();
             console.log(sounds[i]);
         }
