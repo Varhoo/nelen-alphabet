@@ -6,6 +6,6 @@ from apps.core.models import Record
 
 class RecordAdmin(admin.ModelAdmin):
     list_display = ("message", "place", "ipaddr", "datetime")
-    read_only = list_display
+    readonly_fields = list_display
 
 admin.site.register(Record, RecordAdmin)

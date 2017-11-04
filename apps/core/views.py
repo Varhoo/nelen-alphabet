@@ -22,7 +22,7 @@ def sync(request, place):
 def record(request, place=None, format=None):
     content = {'status': 0, }
     if request.method == 'PUT':
-        msg = Record(place=place, message=request.data["msg"])
+        msg = Record(place=place, message=request.data["msg"][0:64])
         msg.ipaddr = request.META.get('HTTP_X_FORWARDED_FOR', request.META.get('REMOTE_ADDR')).split(',')[-1].strip()
         msg.save()
         content['status'] = msg.id

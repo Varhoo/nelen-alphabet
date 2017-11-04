@@ -36,8 +36,41 @@ function c (char){
     }
 }
 
+function playChar(char){
+    url = "/static/audio/" + char + ".wav";
+    audio = new Audio(url);t
+    audio.loop = true;
+    audio.play();
+    return audio;
+}
+
+var sounds = [];
+function sound(text){
+    sounds.forEach(function(element) {
+        element.pause();
+    });
+    sounds = [];
+    text = text.toLowerCase();
+    allow = "bjckouy";
+    convert = "abcdefijklmnopqrstuvwxyz";
+    chars =   "ybcokuojkcjyoukcjbuckoyc";
+    chars = chars.toUpperCase();
+    t = new Set(text.split(""));
+    t = Array.from(t).join("");
+    for (i = 0; i < 3; i++){
+        if (t.length > i){
+            ch = chars[convert.indexOf(t[i])];
+            sounds[i] = playChar(ch);
+            sounds[i].play();
+            console.log(sounds[i]);
+        }
+    }
+}
+
+
 function check (time){
     get_data();
+    sound(text);
     setTimeout(check, 5000, time);
 }
 
@@ -160,6 +193,7 @@ $(document).ready(function(){
             text = $("#interactive-input").val();
             put_data(text, place);
             update(text);
+            sound(text);
         }
     });
 }).keypress(function(e) {
