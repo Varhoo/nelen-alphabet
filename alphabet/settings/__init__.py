@@ -1,0 +1,1 @@
+from alphabet.settings.basic import *

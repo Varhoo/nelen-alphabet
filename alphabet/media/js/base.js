@@ -116,8 +116,8 @@ function get_data(){
               msg = obj[0].fields["message"];
               id = obj[0].pk;
               last_id = $("#msg-id").val(id);
-              text = $("#interactive-input").val(msg);
-              update(text);
+              $("#interactive-input").val(msg);
+              update(msg);
            }
         }
     });
@@ -149,9 +149,9 @@ $(document).ready(function(){
     }
     var url = window.location.href;
     if (url.indexOf('#') > -1) {
-        var hash = url.substring(url.indexOf('#') + 1);
-        $("#interactive-input").val(hash);
-        update(hash);
+        var text = url.substring(url.indexOf('#') + 1);
+        $("#interactive-input").val(text);
+        update(text);
     }
 
     $("#interactive-submit").click(function(){
