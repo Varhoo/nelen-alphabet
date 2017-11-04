@@ -70,7 +70,6 @@ function sound(text){
 
 function check (time){
     get_data();
-    sound(text);
     setTimeout(check, 5000, time);
 }
 
@@ -151,6 +150,7 @@ function get_data(){
               last_id = $("#msg-id").val(id);
               $("#interactive-input").val(msg);
               update(msg);
+              sound(msg);
            }
         }
     });
@@ -185,6 +185,7 @@ $(document).ready(function(){
         var text = url.substring(url.indexOf('#') + 1);
         $("#interactive-input").val(text);
         update(text);
+        sound(text);
     }
 
     $("#interactive-submit").click(function(){
