@@ -36,9 +36,18 @@ function c (char){
     }
 }
 
+function initSound(){
+     allow = "bjckouy".toUpperCase();
+     for(i=0; i < allow.length; i++){
+        url = "/static/audio/" + allow[i] + ".wav";
+        console.log(url);
+        audio = new Audio(url);
+     }
+}
+
 function playChar(char){
     url = "/static/audio/" + char + ".wav";
-    audio = new Audio(url);t
+    audio = new Audio(url);
     audio.loop = true;
     audio.play();
     return audio;
@@ -51,7 +60,7 @@ function sound(text){
     });
     sounds = [];
     text = text.toLowerCase();
-    allow = "bjckouy";
+
     convert = "abcdefijklmnopqrstuvwxyz";
     chars =   "ybcokuojkcjyoukcjbuckoyc";
     chars = chars.toUpperCase();
@@ -150,7 +159,6 @@ function get_data(){
               last_id = $("#msg-id").val(id);
               $("#interactive-input").val(msg);
               update(msg);
-              sound(msg);
            }
         }
     });
@@ -158,6 +166,7 @@ function get_data(){
 
 function update (text){
     Lock();
+    sound(text);
     $("#canvas").empty();
     ww = $("#canvas").width();
     lenght = 0;
@@ -180,21 +189,19 @@ $(document).ready(function(){
     if (place){
         window.setTimeout(check, 5000);
     }
+    initSound();
     var url = window.location.href;
     if (url.indexOf('#') > -1) {
         var text = url.substring(url.indexOf('#') + 1);
         $("#interactive-input").val(text);
         update(text);
-        sound(text);
     }
-
     $("#interactive-submit").click(function(){
         if (! IsLock()){
             place = $("#msg-space").val();
             text = $("#interactive-input").val();
             put_data(text, place);
             update(text);
-            sound(text);
         }
     });
 }).keypress(function(e) {
