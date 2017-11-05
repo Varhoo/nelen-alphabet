@@ -4,7 +4,7 @@
  *   Source:  https://github.com/Varhoo/nelen-alphabet
  */
 
-var alphabet = "abcdefghijklmnopqrstuvwxyz";
+var alphabet = "aábcčdďeéěfghiíjklmnňoópqrřsštuůúvwxyýzž1234567890";
 var czech =   " ěšďčřžýáéíóúňů";
 var convert = "_esdcrzyaeiounu";
 var anim = [];
