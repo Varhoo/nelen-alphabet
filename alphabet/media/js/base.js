@@ -63,12 +63,13 @@ function sound(text){
     text = text.toLowerCase();
 
     var convert = "abcdefijklmnopqrstuvwxyz";
-    var chars =   "ybcokuojkcjyoukcjbuckoyc";
+    var chars =   "-bcok-k-jkubco-c-yu---y-";
     var chars = chars.toUpperCase();
     for (i = 0; i < text.length; i++){
         upper[i] = chars[convert.indexOf(text[i])]
     }
     t = new Set(upper);
+    t.delete("-");
     t = Array.from(t).join("");
     for (i = 0; i < 3; i++){
         if (t.length > i){
@@ -177,7 +178,6 @@ function update (text){
     $("#canvas").append("<div id='begin' >&nbsp;</div>");
     for (i = 0; i < text.length; i++){
         char = c(text.charAt(i));
-        console.log("test: " + char);
         $("#canvas").append("<div id='bodymovin" + i +"' ></div>");
         anim[i] = block(i, char);
         div = $("#bodymovin" + i);
